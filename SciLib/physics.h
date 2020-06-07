@@ -5,6 +5,9 @@
   * Date: 01/02/2006 - Modified: 24/06/2006
   */
 
+#ifndef PHYSICS_H_INCLUDED
+#define PHYSICS_H_INCLUDED
+
 #include "general.h"
 
 // class Vector3D is a general vector with some rotines to work in a 3D space
@@ -115,6 +118,8 @@ template <class T> class Mass {
 			this->m = m;
 			this->e = e;
 			this->q = q;
+			this->lastPos.setZero();
+			this->lastDt = 1.0f;
 			init();
 		}
 		// Access (read and write) to private members
@@ -124,7 +129,9 @@ template <class T> class Mass {
 		T E() { return e; }             // Return the energy of the mass
 		void Q(int _q) { q = _q; }      // Set a value to the charge of the particle
 		int Q() { return q; }           // Return the value of the charge
+		T lastDt;                       // Last dt
 		Vector3D<T> pos;		// Position in space
+		Vector3D<T> lastPos;            // Last position in space
 		Vector3D<T> vel;		// Velocity
 		Vector3D<T> force;		// Force applied on this mass at an instance
 	  	// void applyForce(Vector3D force) method is used to add external force to the mass.
@@ -136,9 +143,22 @@ template <class T> class Mass {
 	  	// void simulate(T dt) method calculates the new velocity and new position of
 	  	// the mass according to change in time (dt). The Euler or Verlet Method is used.
 		void simulate(T dt) {
+			//Vector3D<T> tmpPos;
 			//euler
 			vel += (force / m) * dt;
 			pos += vel * dt;
+			//verlet
+			//vel += (force)*dt/(m);
+			//pos += vel*dt + (force)*dt*dt/(2*m);
+			/*tmpPos = pos;
+			pos += (pos-lastPos)*(dt/lastDt) + (force)*dt*dt/(m);
+			vel += (force)*dt/(m);
+			//vel = (pos-lastPos)/(2*dt);
+			lastDt  = dt;
+			lastPos = tmpPos;*/
+			
 		}
 };
 
+
+#endif // PHYSICS_H_INCLUDED

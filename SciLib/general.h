@@ -5,6 +5,9 @@
   * Date: 24/06/2006 - Modified: 24/06/2006
   */
 
+#ifndef GENERAL_H_INCLUDED
+#define GENERAL_H_INCLUDED
+
 #include <iostream>
 #include <cmath>
 
@@ -26,3 +29,5 @@ class GeneralPurpose {
 		}
 };
 
+
+#endif // GENERAL_H_INCLUDED

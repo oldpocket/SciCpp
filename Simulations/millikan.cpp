@@ -1,4 +1,6 @@
-#include "simulation.h"
+#include "../SciLib/simulation.h"
+
+#define BOX_SIZE 20.0f
 
 class Millikan: public Simulation {
 private:
@@ -19,7 +21,7 @@ public:
 		int signal[] = {1,-1};
 		for (int a = 0; a < numOfMasses; ++a) 
 			maxCharge ? masses[a] = 
-				new Mass<float>(m, signal[std::rand() % 2] * std::rand() % maxCharge) : masses[a] = new Mass<float>(m);
+				new Mass<float>(m, signal[std::rand() % 2] * std::rand() % maxCharge) : masses[a] = new Mass<float>(m, 0);
 		restart();		//set position and velocity of the masses
 	}
 	virtual void solve() {
