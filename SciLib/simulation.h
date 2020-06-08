@@ -5,7 +5,10 @@
   * Date: 02/02/2006 - Modified: 02/03/2006
   */
 
-#include "physics.h"
+#ifndef SIMULATION_H_INCLUDED
+#define SIMULATION_H_INCLUDED
+
+#include "mass.h"
 
 // class Simulation is a container object for simulating masses
 class Simulation {
@@ -19,6 +22,15 @@ class Simulation {
 			masses = new Mass<float>*[numOfMasses];	// Create an array of pointers
 			// Each simulation need to init properly mass and charge 
 		}
+		
+		Simulation(int numOfMasses, float m) {
+            this->numOfMasses = numOfMasses;
+			masses = new Mass<float>*[numOfMasses];	// Create an array of pointers
+
+			for (int a = 0; a < numOfMasses; ++a)	// We will step to every pointer in the array
+				masses[a] = new Mass<float>(m, 0);	// Create a Mass as a pointer and put it in the array
+        }
+		
 		// delete the masses created
 		virtual void release() {
 			// we will delete all of them
@@ -62,3 +74,5 @@ class Simulation {
 
 };
 
+
+#endif // SIMULATION_H_INCLUDED

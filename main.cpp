@@ -8,6 +8,8 @@
 #include <iostream>
 #include "GUI/Simple_window.h"
 #include "Simulations/millikan.cpp"
+#include "Simulations/michelsonInterferometer.cpp"
+#include "Simulations/termionico.cpp"
 
 std::string getCmdOption(int argc, char* argv[], const std::string& option) {
     std::string cmd;
@@ -41,6 +43,16 @@ int main(int argc,char* argv[]) {
     if (!simulation.compare("millikan")) {
     
         Millikan* millikan = new Millikan(3.0f, 10);
+    }
+    
+    if (!simulation.compare("michelsonInterferometer")) {
+    
+        MichelsonInterferometer* michelsonInterferometer = new MichelsonInterferometer();
+    }
+    
+    if (!simulation.compare("thermionicEmission")) {
+    
+        ThermionicEmission* thermionicEmission = new ThermionicEmission(3.0f, 10);
     }
     
     // GUI should receive the simulation class together. Or I should create the correct simulation GUI

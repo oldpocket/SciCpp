@@ -5,9 +5,12 @@
   * Date: 05/05/2006 - Modified: 29/06/2006
   */
 
-#include "simulation.h"
+#include "../SciLib/simulation.h"
 
-class thermionicEmission: public Simulation {
+#define BOX_SIZE 20.0f
+#define NUM_OF_PARTICLES 10000
+
+class ThermionicEmission: public Simulation {
 private:
 	float temperature;	// actual temperature of the system
 	float workFunction;
@@ -21,7 +24,7 @@ public:
 	float getTemperature() { return temperature; }
 	Vector3D<float> eField;			// eletric field
 	// constructor
-	thermionicEmission(const float m, const int maxEnergy = .0f) : Simulation(NUM_OF_PARTICLES) {
+	ThermionicEmission(const float m, const int maxEnergy = .0f) : Simulation(NUM_OF_PARTICLES) {
 		// Create a Mass as a pointer and put it in the array
 		// We can create masses with random energy or without it
 		for (int a = 0; a < numOfMasses; ++a) 

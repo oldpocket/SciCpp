@@ -1,10 +1,12 @@
-#include "simulation.h"
+#include "../SciLib/simulation.h"
 
-class michelsonInterferometer: public Simulation {
+Vector3D<float> aether(.0f, .0f, .0f);
+
+class MichelsonInterferometer: public Simulation {
 	private:
 	public:
 		//Constructor firstly constructs its super class with 1 mass and 1 kg
-		michelsonInterferometer() : Simulation(2, 1.0f) {
+		MichelsonInterferometer() : Simulation(2, 1.0f) {
 			restartFoton();
 		}
 		// restartFoton() put the foton on origin of the lab coordenates
