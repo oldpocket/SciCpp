@@ -6,7 +6,7 @@
   */
 
 #ifndef VECTOR_3D_H_INCLUDED
-#define VECTOR_3D_INCLUDED
+#define VECTOR_3D_H_INCLUDED
 
 #include "general.h"
 

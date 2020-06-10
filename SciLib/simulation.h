@@ -14,7 +14,7 @@
 class Simulation {
 	public:
 		int numOfMasses;				// number of masses in this container
-		Mass<float>** masses;				// masses are held by pointer to pointer
+		Mass<float>** masses;			// masses are held by pointer to pointer
 	
 		// Constructor creates some masses with mass values m
 		Simulation(int numOfMasses) {
@@ -51,7 +51,7 @@ class Simulation {
 		// this method will call the init() method of every mass
 		virtual void init() {
 		for (int a = 0; a < numOfMasses; ++a)		// We will init() every mass
-			masses[a]->init();			// call init() method of the mass
+			masses[a]->init();			            // call init() method of the mass
 		}
 
 		// no implementation because no forces are wanted in this basic container
@@ -69,7 +69,7 @@ class Simulation {
 		virtual void operate(float dt) {
 			init();					// Step 1: reset forces to zero
 			solve();				// Step 2: apply forces
-			simulate(dt);				// Step 3: iterate the masses by the change in time
+			simulate(dt);			// Step 3: iterate the masses by the change in time
 		}
 
 };
