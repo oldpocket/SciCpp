@@ -1,25 +1,25 @@
 /****************************************************************
   * File: mass.h
-  * Description: Represents a Mass, to be used in physics simulations
+  * Description: Represents a Particle, to be used in physics simulations
   * Author: Fabio Andreozzi Godoy
   * Date: 01/02/2006 - Modified: 24/06/2006
   */
 
-#ifndef MASS_H_INCLUDED
-#define MASS_H_INCLUDED
+#ifndef PARTICLE_H_INCLUDED
+#define PARTICLE_H_INCLUDED
 
-#include "general.h"
-#include "vector_3d.h"
+#include "../Util/general.h"
+#include "../MathLib/vector_3d.h"
 
-// class Mass discribe a simple particle (or object)
-template <class T> class Mass {
+// class Particle discribe a simple particle (or object)
+template <class T> class Particle {
 	private:
 		T m;				// The mass value
 		T e;                            // Energy of the mass
 		int q;				// The charge value (integer multiple of 'e')
 	public:
 		// Constructor
-		Mass(T m, T e, int q = 0) {
+		Particle(T m, T e, int q = 0) {
 			this->m = m;
 			this->e = e;
 			this->q = q;
@@ -36,7 +36,7 @@ template <class T> class Mass {
 		int Q() { return q; }           // Return the value of the charge
 		T lastDt;                       // Last dt
 		Vector3D<T> pos;		// Position in space
-		Vector3D<T> lastPos;            // Last position in space
+		Vector3D<T> lastPos;    // Last position in space
 		Vector3D<T> vel;		// Velocity
 		Vector3D<T> force;		// Force applied on this mass at an instance
 	  	// void applyForce(Vector3D force) method is used to add external force to the mass.
@@ -66,4 +66,4 @@ template <class T> class Mass {
 };
 
 
-#endif // MASS_H_INCLUDED
+#endif // PARTICLE_H_INCLUDED

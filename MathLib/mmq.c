@@ -5,9 +5,8 @@
 /******************************************************************************/
 
 #include <stdio.h>
-#include <conio.h>
 
-void main() {
+int main() {
   FILE *fdat;
   float X, SY = 0, SX = 0, SXX = 0;
   float Y, SXY = 0;

@@ -5,7 +5,7 @@
   * Date: 05/05/2006 - Modified: 29/06/2006
   */
 
-#include "../SciLib/simulation.h"
+#include "../PhysLib/simulation.h"
 
 #define BOX_SIZE 20.0f
 #define NUM_OF_PARTICLES 10000
@@ -26,11 +26,11 @@ public:
 	// constructor
 	ThermionicEmission(const float m, const int maxEnergy = .0f) : Simulation(NUM_OF_PARTICLES) {
 		// Create a Mass as a pointer and put it in the array
-		// We can create masses with random energy or without it
+		// We can create particles with random energy or without it
 		for (int a = 0; a < numOfMasses; ++a) 
-			maxEnergy ? masses[a] = 
-				new Mass<float>(m, (float)(std::rand() % maxEnergy), 1) : masses[a] = new Mass<float>(m, .0f, 1);
-		restart();		//set initial condition of the masses
+			maxEnergy ? particles[a] = 
+				new Particle<float>(m, (float)(std::rand() % maxEnergy), 1) : particles[a] = new Particle<float>(m, .0f, 1);
+		restart();		//set initial condition of the particles
 	}
 	// sort a number of particles proportional to subList and probability arguments
 	void sort(float energy) {
@@ -46,8 +46,8 @@ public:
 			} while ((goParticle[sort]) && (trySort < numOfMasses)); 
 			if (trySort < numOfMasses) {
 				goParticle[sort] = true;
-				masses[sort]->vel.Y(sqrt(2*energy));
-				masses[sort]->pos.Y(.1f);
+				particles[sort]->vel.Y(sqrt(2*energy));
+				particles[sort]->pos.Y(.1f);
 				goCounter++;
 			} else i = flux;
 		}
@@ -58,16 +58,16 @@ public:
 		// apply the forces
 		sort(std::rand()%100);
 		for (int a = 0; a < numOfMasses; ++a) {
-			//we'll apply force to all masses
+			//we'll apply force to all particles
 			if (goParticle[a]==true) {
-				if ((masses[a]->pos.Y() < 0) || (masses[a]->pos.Y() > 20)) {
+				if ((particles[a]->pos.Y() < 0) || (particles[a]->pos.Y() > 20)) {
 					goParticle[a] = false;
 					goCounter--;
-					if (masses[a]->pos.Y() > 20) current++;
+					if (particles[a]->pos.Y() > 20) current++;
 				} else {
-					float distY = masses[a]->pos.Y();
+					float distY = particles[a]->pos.Y();
 					float imgForce = .001*(goCounter); ///(distY*distY);
-					masses[a]->applyForce(eField + Vector3D<float>(.0f, -imgForce, .0f) );
+					particles[a]->applyForce(eField + Vector3D<float>(.0f, -imgForce, .0f) );
 				}
 			}
 		}
@@ -88,10 +88,10 @@ public:
 		for (int a = 0; a < numOfMasses; a++) {
 			goParticle[a] = false;
 			//a mass was created and we randomize his position
-			masses[a]->pos.randomize((int)BOX_SIZE, true);
-			masses[a]->pos.Y(0); masses[a]->pos.Z(0);
+			particles[a]->pos.randomize((int)BOX_SIZE, true);
+			particles[a]->pos.Y(0); particles[a]->pos.Z(0);
 			//we set the mass's velocity to zero
-			masses[a]->vel.setZero();
+			particles[a]->vel.setZero();
 		}
 
 	}

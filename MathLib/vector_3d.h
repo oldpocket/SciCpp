@@ -8,7 +8,7 @@
 #ifndef VECTOR_3D_H_INCLUDED
 #define VECTOR_3D_H_INCLUDED
 
-#include "general.h"
+#include "../Util/general.h"
 
 // class Vector3D is a general vector with some rotines to work in a 3D space
 template <class T> class Vector3D {

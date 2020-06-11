@@ -8,50 +8,50 @@
 #ifndef SIMULATION_H_INCLUDED
 #define SIMULATION_H_INCLUDED
 
-#include "mass.h"
+#include "particle.h"
 
 // class Simulation is a container object for simulating masses
 class Simulation {
 	public:
 		int numOfMasses;				// number of masses in this container
-		Mass<float>** masses;			// masses are held by pointer to pointer
+		Particle<float>** particles;			// masses are held by pointer to pointer
 	
 		// Constructor creates some masses with mass values m
 		Simulation(int numOfMasses) {
 			this->numOfMasses = numOfMasses;
-			masses = new Mass<float>*[numOfMasses];	// Create an array of pointers
+			particles = new Particle<float>*[numOfMasses];	// Create an array of pointers
 			// Each simulation need to init properly mass and charge 
 		}
 		
 		Simulation(int numOfMasses, float m) {
             this->numOfMasses = numOfMasses;
-			masses = new Mass<float>*[numOfMasses];	// Create an array of pointers
+			particles = new Particle<float>*[numOfMasses];	// Create an array of pointers
 
 			for (int a = 0; a < numOfMasses; ++a)	// We will step to every pointer in the array
-				masses[a] = new Mass<float>(m, 0);	// Create a Mass as a pointer and put it in the array
+				particles[a] = new Particle<float>(m, 0);	// Create a Mass as a pointer and put it in the array
         }
 		
 		// delete the masses created
 		virtual void release() {
 			// we will delete all of them
 			for (int a = 0; a < numOfMasses; ++a) {
-				delete(masses[a]);
-				masses[a] = NULL;
+				delete(particles[a]);
+				particles[a] = NULL;
 			}
-			delete(masses);
-			masses = NULL;
+			delete(particles);
+			particles = NULL;
 		}
 		// return a pointer of the mass with the desire index
-		Mass<float>* getMass(int index) {
+		Particle<float>* getMass(int index) {
 			if (index < 0 || index >= numOfMasses)	// if the index is not in the array
 				return NULL;			// then return NULL
 
-			return masses[index];			// get the mass at the index
+			return particles[index];			// get the mass at the index
 		}
 		// this method will call the init() method of every mass
 		virtual void init() {
 		for (int a = 0; a < numOfMasses; ++a)		// We will init() every mass
-			masses[a]->init();			            // call init() method of the mass
+			particles[a]->init();			            // call init() method of the mass
 		}
 
 		// no implementation because no forces are wanted in this basic container
@@ -62,7 +62,7 @@ class Simulation {
 		// Iterate the masses by the change in time
 		virtual void simulate(float dt) {
 			for (int a = 0; a < numOfMasses; ++a)	// We will iterate every mass
-				masses[a]->simulate(dt);	// Iterate the mass and obtain new position and new velocity
+				particles[a]->simulate(dt);	// Iterate the mass and obtain new position and new velocity
 		}
 
 		// The complete procedure of simulation
