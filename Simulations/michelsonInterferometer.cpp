@@ -1,17 +1,20 @@
-#include "../PhysLib/simulation.h"
+#ifndef MichelsonInterferometer_H
+#define MichelsonInterferometer_H
 
-Vector3D<float> aether(.0f, .0f, .0f);
+#include "../PhysLib/simulation.h"
 
 class MichelsonInterferometer: public Simulation {
 	private:
+        Vector3D<float>* aether;
 	public:
 		//Constructor firstly constructs its super class with 1 mass and 1 kg
 		MichelsonInterferometer() : Simulation(2, 1.0f) {
+           
 			restartFoton();
 		}
 		// restartFoton() put the foton on origin of the lab coordenates
 		void restartFoton() {
-			for (int a = 0; a < numOfMasses; a++) {
+			for (int a = 0; a < numOfParticles; a++) {
 				//a mass was created and we set its position to the origin
 				particles[a]->pos.set(-20.0f, .0f, .0f);
 				//we set the mass's velocity to (1.0f, 0.0f, 0.0f)
@@ -20,7 +23,7 @@ class MichelsonInterferometer: public Simulation {
 		}
 		// pbc() verify "periodic boundary conditions" to our problem
 		void pcb() {
-			for (int i = 0; i < numOfMasses; i++) {
+			for (int i = 0; i < numOfParticles; i++) {
 				Vector3D<float>* pos = &particles[i]->pos;
 				// verify bound conditions - splitter and mirror for each particle
 				// particle 0 change Y direction on the splitter and particle 1 go ahead
@@ -51,8 +54,8 @@ class MichelsonInterferometer: public Simulation {
 		}
 		// solve() is overriden because we have forces to be applied
 		virtual void solve() {
-			for (int a = 0; a < numOfMasses; a++)
-				particles[a]->applyForce(aether); 
+            //Vector3D<float>* aether = new Vector3D<float>(.0f, .0f, .0f);
+			//for (int a = 0; a < numOfParticles; a++) particles[a]->applyForce(aether); 
 		}
 		// operate() is orverriden because we need to include pcb check
 		virtual void operate(float dt) {
@@ -61,3 +64,5 @@ class MichelsonInterferometer: public Simulation {
 		}
 
 };
+
+#endif 

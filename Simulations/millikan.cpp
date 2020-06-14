@@ -19,14 +19,14 @@ public:
 		// Create a Mass as a pointer and put it in the array
 		// We can create particles with random charge or without it
 		int signal[] = {1,-1};
-		for (int a = 0; a < numOfMasses; ++a) 
+		for (int a = 0; a < numOfParticles; ++a) 
 			maxCharge ? particles[a] = 
-				new Particle<float>(m, signal[std::rand() % 2] * std::rand() % maxCharge) : particles[a] = new Particle<float>(m, 0);
+				new Particle<float>(m, signal[std::rand() % 2] * std::rand() % maxCharge, 0) : particles[a] = new Particle<float>(m, 0, 0);
 		restart();		//set position and velocity of the particles
 	}
 	virtual void solve() {
 		//force will be applied therefore we need a "solve" method.
-		for (int a = 0; a < numOfMasses; ++a) {
+		for (int a = 0; a < numOfParticles; ++a) {
 			//we will apply force to all particles
 			eForce = eField * particles[a]->Q();
 			bForce = (particles[a]->vel ^ bField) * particles[a]->Q();
@@ -39,7 +39,7 @@ public:
 		eField.setZero();
 		bField.setZero();
 		eFieldOn = false;
-		for (int a = 0; a < numOfMasses; a++) {
+		for (int a = 0; a < numOfParticles; a++) {
 			//a mass was created and we randomize his position
 			particles[a]->pos.randomize((int)BOX_SIZE, true);
 			particles[a]->pos.Y(15); particles[a]->pos.Z(1);

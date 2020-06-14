@@ -9,7 +9,19 @@ IF ( FLTK_FOUND )
     LINK_DIRECTORIES(${FLTK_LIBRARY_DIR} )
 ENDIF ( FLTK_FOUND )
 
-add_executable( scicpp main.cpp GUI/Simple_window.cpp  )
+file(GLOB source_files
+        "*.h"
+        "*.cpp"
+        "GUI/*.h"
+        "GUI/*.cpp"
+        "Integrator/*.h"
+        "MathLib/vector_3d.h"
+        "PhysLib/*.h"
+        "Simulations/*.cpp"
+        "Util/general.h"
+)
+
+add_executable( scicpp main.cpp ${source_files} )
 
 TARGET_LINK_LIBRARIES (scicpp ${FLTK_LIBRARIES} )
 

@@ -15,28 +15,25 @@
 template <class T> class Particle {
 	private:
 		T m;				// The mass value
-		T e;                            // Energy of the mass
-		int q;				// The charge value (integer multiple of 'e')
+		T e;                // Energy of the mass
+		T q;				// The charge value (integer multiple of 'e')
 	public:
 		// Constructor
-		Particle(T m, T e, int q = 0) {
-			this->m = m;
-			this->e = e;
-			this->q = q;
-			this->lastPos.setZero();
-			this->lastDt = 1.0f;
+		Particle(T m_, T e_, T q_) {
+			this->m = m_;
+			this->e = e_;
+			this->q = q_;
+
 			init();
 		}
 		// Access (read and write) to private members
-		void M(T _m) { m = _m; }        // Set a value to the mass
+		void M(T m_) { m = m_; }        // Set a value to the mass
 		T M() { return m; }             // Return the value of the mass
-		void E(T _e) { e = _e; }        // Set a value to the energy of the particle
+		void E(T e_) { e = e_; }        // Set a value to the energy of the particle
 		T E() { return e; }             // Return the energy of the mass
-		void Q(int _q) { q = _q; }      // Set a value to the charge of the particle
-		int Q() { return q; }           // Return the value of the charge
-		T lastDt;                       // Last dt
+		void Q(T q_) { q = q_; }      // Set a value to the charge of the particle
+		T Q() { return q; }           // Return the value of the charge
 		Vector3D<T> pos;		// Position in space
-		Vector3D<T> lastPos;    // Last position in space
 		Vector3D<T> vel;		// Velocity
 		Vector3D<T> force;		// Force applied on this mass at an instance
 	  	// void applyForce(Vector3D force) method is used to add external force to the mass.

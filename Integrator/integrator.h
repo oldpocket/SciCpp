@@ -1,18 +1,8 @@
-/*
- * Copyright 2020 Fabio Godoy <aethiopicus@gmail.com>
- * 
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * 
- *     http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+/******************************************************************************/
+/*   Function : Interface for integrators                                     */
+/*  Developer : Fabio Andreozzi Godoy                                         */
+/*       Date : 2020-06-12 - Ultima atualizacao : 2020-06-14                  */
+/******************************************************************************/
 
 #ifndef INTEGRATOR_H
 #define INTEGRATOR_H
@@ -25,20 +15,80 @@ enum IntegratorType {
     EULER, VERLET
 }; 
 
+template <class T> class Integrator;
+
 /**
  * @todo write docs
  */
-template <class T> 
-class Integrator {
-protected:
-    Particle<T> particle;
+template <class T> class EulerIntegrator : public Integrator<T> {
 public:
     /**
      * Default constructor
      */
-    Integrator(Particle<T>& particle_) {
+    EulerIntegrator(Particle<T>* particle_) : Integrator<T>(particle_) {
+    }   
+
+    /**
+     * Destructor
+     */
+    ~EulerIntegrator();
+
+    virtual void integrate(T dt_) override {
+        
+        this->particle->vel += (this->particle->force / this->particle->M()) * dt_;
+        this->particle->pos += this->particle->vel * dt_; 
+    }
     
-        particle = particle_;
+};
+
+/**
+ * @todo write docs
+ */
+template <class T> class VerletIntegrator : public Integrator<T> {
+private:
+    T lastDt;                       // Last dt
+    Vector3D<T> lastPos;    // Last position in space
+public:
+    /**
+     * Default constructor
+     */
+    VerletIntegrator(Particle<T>* particle_) : Integrator<T>(particle_) {
+    }   
+
+    /**
+     * Destructor
+     */
+    ~VerletIntegrator();
+
+    virtual void integrate(T dt_) override {
+        
+        Vector3D<T> tmpPos;
+        this->particle->vel += (this->particle->force)*dt_/(this->particle->M());
+        this->particle->pos += this->particle->vel*dt_ + (this->particle->force)*dt_*dt_/(2*this->particle->M());
+        tmpPos = this->particle->pos;
+        this->particle->pos += (this->particle->pos-lastPos)*(dt_/lastDt) + (this->particle->force)*dt_*dt_/(this->particle->M());
+        this->particle->vel += (this->particle->force)*dt_/(this->particle->M());
+        //vel = (pos-lastPos)/(2*dt);
+        lastDt  = dt_;
+        lastPos = tmpPos;
+    }
+    
+};
+
+/**
+ * @todo write docs
+ */
+template <class T>  class Integrator {
+protected:
+    Particle<T>* particle;    
+public:
+
+    /**
+     * Default constructor
+     */
+    Integrator(Particle<T>* particle_) {
+        
+       particle = particle_;
     }
 
     /**
@@ -48,15 +98,18 @@ public:
     
     virtual void integrate(T dt_) = 0;
     
-    static Integrator* Create(IntegratorType type_) {
+    // Integrator Factory Method
+    static Integrator<T>* Create(IntegratorType type_, Particle<T>* particle_) {
     
-        if (type_ == EULER) return new EulerIntegrator<T>();
-        if (type_ == VERLET) return new VerletIntegrator<T>();
+        if (type_ == EULER) return new EulerIntegrator<T>(particle_);
+        if (type_ == VERLET) return new VerletIntegrator<T>(particle_);
         
         return NULL;
             
     }
 
 };
+
+
 
 #endif // INTEGRATOR_H

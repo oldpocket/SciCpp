@@ -27,7 +27,7 @@ public:
 	ThermionicEmission(const float m, const int maxEnergy = .0f) : Simulation(NUM_OF_PARTICLES) {
 		// Create a Mass as a pointer and put it in the array
 		// We can create particles with random energy or without it
-		for (int a = 0; a < numOfMasses; ++a) 
+		for (int a = 0; a < numOfParticles; ++a) 
 			maxEnergy ? particles[a] = 
 				new Particle<float>(m, (float)(std::rand() % maxEnergy), 1) : particles[a] = new Particle<float>(m, .0f, 1);
 		restart();		//set initial condition of the particles
@@ -36,15 +36,15 @@ public:
 	void sort(float energy) {
 		int tmpCounter = goCounter;
 		int sort, trySort = 0;
-		int flux = (int)(mbDistribution(energy) * (numOfMasses/2));   // max number of particles to be sort
+		int flux = (int)(mbDistribution(energy) * (numOfParticles/2));   // max number of particles to be sort
 
 		if (energy < workFunction) return;
 		for (int i = 0; i < flux; i++) {
 			do {
-				sort = std::rand() % numOfMasses;
+				sort = std::rand() % numOfParticles;
 				trySort++;
-			} while ((goParticle[sort]) && (trySort < numOfMasses)); 
-			if (trySort < numOfMasses) {
+			} while ((goParticle[sort]) && (trySort < numOfParticles)); 
+			if (trySort < numOfParticles) {
 				goParticle[sort] = true;
 				particles[sort]->vel.Y(sqrt(2*energy));
 				particles[sort]->pos.Y(.1f);
@@ -57,7 +57,7 @@ public:
 	virtual void solve() {
 		// apply the forces
 		sort(std::rand()%100);
-		for (int a = 0; a < numOfMasses; ++a) {
+		for (int a = 0; a < numOfParticles; ++a) {
 			//we'll apply force to all particles
 			if (goParticle[a]==true) {
 				if ((particles[a]->pos.Y() < 0) || (particles[a]->pos.Y() > 20)) {
@@ -85,7 +85,7 @@ public:
 		goCounter  = 0;
 		ctime      = 0;
 		current    = 0;
-		for (int a = 0; a < numOfMasses; a++) {
+		for (int a = 0; a < numOfParticles; a++) {
 			goParticle[a] = false;
 			//a mass was created and we randomize his position
 			particles[a]->pos.randomize((int)BOX_SIZE, true);

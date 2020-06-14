@@ -10,6 +10,7 @@
 #include "Simulations/millikan.cpp"
 #include "Simulations/michelsonInterferometer.cpp"
 #include "Simulations/termionico.cpp"
+#include "Simulations/freeFallingBall.cpp"
 
 std::string getCmdOption(int argc, char* argv[], const std::string& option) {
     std::string cmd;
@@ -53,6 +54,11 @@ int main(int argc,char* argv[]) {
     if (!simulation.compare("thermionicEmission")) {
     
         ThermionicEmission* thermionicEmission = new ThermionicEmission(3.0f, 10);
+    }
+    
+    if (!simulation.compare("freeFallingBall")) {
+    
+        FreeFallingBall* freeFallingBall = new FreeFallingBall();
     }
     
     // GUI should receive the simulation class together. Or I should create the correct simulation GUI

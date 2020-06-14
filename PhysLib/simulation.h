@@ -8,71 +8,80 @@
 #ifndef SIMULATION_H_INCLUDED
 #define SIMULATION_H_INCLUDED
 
-#include "particle.h"
+#include "../PhysLib/particle.h"
+#include "../Integrator/integrator.h"
 
 // class Simulation is a container object for simulating masses
 class Simulation {
+    protected:
+        Particle<float>** particles;	  // particles of the simulation
+        Integrator<float>** integrators;  // each particle must have an integrator associated with it
 	public:
-		int numOfMasses;				// number of masses in this container
-		Particle<float>** particles;			// masses are held by pointer to pointer
+		int numOfParticles;			      // number of masses in this container
+		
 	
 		// Constructor creates some masses with mass values m
-		Simulation(int numOfMasses) {
-			this->numOfMasses = numOfMasses;
-			particles = new Particle<float>*[numOfMasses];	// Create an array of pointers
-			// Each simulation need to init properly mass and charge 
+		Simulation(int numOfParticles_) {
+			this->numOfParticles = numOfParticles_;
+			particles = new Particle<float>*[numOfParticles_];	// Create an array of pointers
+			integrators = new Integrator<float>*[numOfParticles_];
+			// Each simulation need to init properly the properties of the particle (mass, charge, etc)
 		}
 		
-		Simulation(int numOfMasses, float m) {
-            this->numOfMasses = numOfMasses;
-			particles = new Particle<float>*[numOfMasses];	// Create an array of pointers
+		Simulation(int numOfParticles_, float m) : Simulation(numOfParticles_) {
 
-			for (int a = 0; a < numOfMasses; ++a)	// We will step to every pointer in the array
-				particles[a] = new Particle<float>(m, 0);	// Create a Mass as a pointer and put it in the array
+			for (int a = 0; a < numOfParticles_; ++a) {	        // We will step to every pointer in the array
+				particles[a] = new Particle<float>(m, 0, 0);	// Create a Mass as a pointer and put it in the array
+                integrators[a] = Integrator<float>::Create(IntegratorType::EULER, particles[a]);
+            }
         }
 		
-		// delete the masses created
+		// Delete the masses created
 		virtual void release() {
-			// we will delete all of them
-			for (int a = 0; a < numOfMasses; ++a) {
+			// We will delete all of them
+			for (int a = 0; a < numOfParticles; ++a) {
 				delete(particles[a]);
 				particles[a] = NULL;
 			}
 			delete(particles);
 			particles = NULL;
 		}
-		// return a pointer of the mass with the desire index
+
+		// Return a pointer of the mass with the desire index
 		Particle<float>* getMass(int index) {
-			if (index < 0 || index >= numOfMasses)	// if the index is not in the array
-				return NULL;			// then return NULL
+			if (index < 0 || index >= numOfParticles)	// if the index is not in the array
+				return NULL;			                // then return NULL
 
-			return particles[index];			// get the mass at the index
+			return particles[index];			        // get the mass at the index
 		}
-		// this method will call the init() method of every mass
+	
+        // Calling init(), the simulation we will initialize each particle in the system
 		virtual void init() {
-		for (int a = 0; a < numOfMasses; ++a)		// We will init() every mass
-			particles[a]->init();			            // call init() method of the mass
+            for (int a = 0; a < numOfParticles; ++a)
+                // Starting the particle
+                particles[a]->init();
 		}
 
-		// no implementation because no forces are wanted in this basic container
+		// Solve method MUST be overriden by subclasses. 
+		// Subclasses MUST apply the forces interacting with the system here.
 		virtual void solve() {
-			// in advanced containers, this method will be overrided and some forces will act on masses
+			// in advanced containers, this method will be overrided and some forces will act at particles
 		}
 
 		// Iterate the masses by the change in time
-		virtual void simulate(float dt) {
-			for (int a = 0; a < numOfMasses; ++a)	// We will iterate every mass
-				particles[a]->simulate(dt);	// Iterate the mass and obtain new position and new velocity
+		virtual void simulate(float dt_) {
+            // We will iterate every particle
+			for (int a = 0; a < numOfParticles; ++a)	
+                // Iterate the particles and obtain new position and new velocity
+				particles[a]->simulate(dt_);	        
 		}
 
 		// The complete procedure of simulation
-		virtual void operate(float dt) {
-			init();					// Step 1: reset forces to zero
-			solve();				// Step 2: apply forces
-			simulate(dt);			// Step 3: iterate the masses by the change in time
+		virtual void operate(float dt_) {
+			init();			// Step 1: reset forces to zero
+			solve();		// Step 2: apply forces
+			simulate(dt_);	// Step 3: iterate the masses by the change in time
 		}
-
 };
-
 
 #endif // SIMULATION_H_INCLUDED
