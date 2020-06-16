@@ -5,26 +5,32 @@
 
 class FreeFallingBall: public Simulation {
 private:
-	Vector3D<float> gForce;			// gravitational acceleration
-public:
-	FreeFallingBall() : Simulation(1) {
-		//Vector3D gravitation, is the gravitational acceleration
-		this->gForce = Vector3D<float>(.0f, -9.81f,  .0f);			//set this class's gravitation
+    // Gravitational acceleration
+	Vector3D<float> gForce;
 
-		// Create a Mass as a pointer and put it in the array
-		for (int a = 0; a < numOfParticles; ++a) {
-            particles[a] = new Particle<float>(1, 0, 0);
-        }
-		restart();		//set position and velocity of the masses
+public:
+	
+    FreeFallingBall() : Simulation(1) {
+        
+		//Defining direction and magnitude of gravitational acceleration
+		this->gForce = Vector3D<float>(.0f, -9.81f,  .0f);
+
+		// Base constructor will generate the particles 
+
+        // Set position and velocity of the particles
+		restart();		
 	}
+	
 	virtual void solve() {
-		//force will be applied therefore we need a "solve" method.
+		// Applying the forces from our system. In this case, we need only gravitational force.
 		for (int a = 0; a < numOfParticles; ++a) {
-			//we will apply force to all masses
+			// Force need to be applied to all particles individualy.
+            
 			// Falling Ball -> F =  m * a
 			particles[a]->applyForce(gForce * particles[a]->M());
 		}
 	}
+	
 	void restart() {
 		for (int a = 0; a < numOfParticles; a++) {
 			// Randomize the possition 

@@ -1,7 +1,7 @@
 /********************************************************************
   * Description: Simulation base class to be used in the experiments
   * Author: Fabio Andreozzi Godoy
-  * Date: 2006-02-02 | Modified: 2020-06-14
+  * Date: 2006-02-02 | Modified: 2020-06-16
   */
 
 #ifndef SIMULATION_H_INCLUDED
@@ -12,9 +12,41 @@
 
 // class Simulation is a container object for simulating masses
 class Simulation {
+    private:
+        float _elapsedTime = 0;
+        float _slowMotionRatio = 0;
+        
+        // Calculates dt, the time interval (as seconds) from the "Previous Frame" to the "Current Frame".
+        // It'll be used to iterate the values such as Velocity and Position of the particles.
+        int calculateNumOfInterations(int milliseconds_) {
+                        
+            // Let's Convert Milliseconds To Seconds
+            float dt = milliseconds_ / 1000.0f;
+            
+            // Divide dt By slowMotionRatio And Obtain The New dt
+            dt /= _slowMotionRatio;			
+            
+            // To get the total elapsed time from the simulation, 
+            _elapsedTime += dt;
+            
+            // Say That The Maximum Possible dt Is 0.1 Seconds
+            // This Is Needed So We Do Not Pass Over A Non Precise dt Value
+            float maxPossible_dt = 0.1f;
+            
+            // Calculate Number Of Iterations To Be Made At This Update Depending On maxPossible_dt And dt
+            int numOfIterations = (int)(dt / maxPossible_dt) + 1;
+            
+            // dt Should Be Updated According To numOfIterations
+            if (numOfIterations != 0) dt = dt / numOfIterations;	
+                
+            return dt;
+        }
     protected:
-        Particle<float>** particles;	  // particles of the simulation
-        Integrator<float>** integrators;  // each particle must have an integrator associated with it
+        // Particles of the simulation
+        Particle<float>** particles;
+        // Each particle must have an integrator associated with it
+        Integrator<float>** integrators;
+        
         
         // The basic Simulation live cicle is composed of the 3 methods bellow
         
@@ -40,10 +72,13 @@ class Simulation {
 		}        
         
 	public:
-		int numOfParticles;			      // number of particles in this container
+        // Number of particles in this container
+		int numOfParticles;
 		
 		// Basic Constructor, creates some particles but do not initialize it
-		Simulation(int numOfParticles_) {
+		Simulation(int numOfParticles_, float slowMotionRatio_ = 1) {
+            _slowMotionRatio = slowMotionRatio_;
+            
 			this->numOfParticles = numOfParticles_;
 			particles = new Particle<float>*[numOfParticles_];	// Create an array of pointers
 			integrators = new Integrator<float>*[numOfParticles_];
@@ -51,15 +86,21 @@ class Simulation {
 		}
 		
 		// Create the array with particles, but also initialize them with the given mass.
-		Simulation(int numOfParticles_, float m_) : Simulation(numOfParticles_) {
+		Simulation(int numOfParticles_, float m_, float slowMotionRatio_) 
+        : Simulation(numOfParticles_, slowMotionRatio_) {
 
-			for (int a = 0; a < numOfParticles_; ++a) {	        // We will step to every pointer in the array
-				particles[a] = new Particle<float>(m_, 0, 0);	// Create a Mass as a pointer and put it in the array
+            // We will step to every pointer in the array
+			for (int a = 0; a < numOfParticles_; ++a) {	        
+                
+                // Create a Particle as a pointer and put it in the array
+				particles[a] = new Particle<float>(m_, 0, 0);
+                
+                // Each particle need an Integrator to solve the moviment equations
                 integrators[a] = Integrator<float>::Create(IntegratorType::EULER, particles[a]);
             }
         }
 		
-		// Delete the particles created
+		// Delete the created particles
 		virtual void release() {
 			// We will delete all of them
 			for (int a = 0; a < numOfParticles; ++a) {
@@ -69,20 +110,30 @@ class Simulation {
 			delete(particles);
 			particles = NULL;
 		}
+		
+		// Return the total elapsed time from the simulation
+		float getElapsedTime() {
+            return _elapsedTime;
+        }
 
-		// Return a pointer of the mass with the desire index
-		Particle<float>* getMass(int index_) {
-			if (index_ < 0 || index_ >= numOfParticles)	// if the index is not in the array
-				return NULL;			                // then return NULL
+		// Return a pointer of the particle with the desire index
+		Particle<float>* getParticle(int index_) {
+            // If the index is not in the array the return NULL
+			if (index_ < 0 || index_ >= numOfParticles)	
+				return NULL;
 
-			return particles[index_];			        // get the mass at the index
+            // The particle at the given index
+			return particles[index_];
 		}
 	
 		// A complete simulation operation or iteration is composed of the calls on this method
-		virtual void operate(float dt_) {
+        // milliseconds_ should be calculated like: 
+        // int milliseconds_ = currentTime_ - lastTime_;
+        // milliseconds_ must be in Milliseconds
+		virtual void operate(int milliseconds_) {
 			init();			// Step 1: reset forces to zero
 			solve();		// Step 2: apply forces
-			simulate(dt_);	// Step 3: iterate the masses by the change in time
+			simulate(calculateNumOfInterations(milliseconds_));	// Step 3: iterate the masses by the change in time
 		}
 };
 
