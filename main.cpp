@@ -18,7 +18,7 @@
 std::string getCmdOption(int argc, char* argv[], const std::string& option) {
     std::string cmd;
     for( int i = 0; i < argc; ++i) {
-        std::string arg = argv[i];
+        std::string arg = argv[i]; 
         
         if(arg.find(option) == 0) {
             cmd = arg.substr(option.length());
