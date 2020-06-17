@@ -5,7 +5,10 @@
   * Date: 2020-06-06 - Modified: 2020-06-06
   */
 
+#include <chrono>
 #include <iostream>
+#include <thread>
+
 #include "GUI/Simple_window.h"
 #include "Simulations/millikan.cpp"
 #include "Simulations/michelsonInterferometer.cpp"
@@ -59,6 +62,28 @@ int main(int argc,char* argv[]) {
     if (!simulation.compare("freeFallingBall")) {
     
         FreeFallingBall* freeFallingBall = new FreeFallingBall();
+        
+        auto start = std::chrono::steady_clock::now();
+        
+        std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+
+        do {
+            std::cout << "-------" << std::endl;
+            auto end = std::chrono::steady_clock::now();
+            int milis = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
+            std::cout << freeFallingBall->getElapsedTime() << std::endl;
+            std::cout << "POS "; freeFallingBall->getParticle(0)->pos.print();
+            std::cout << "VEL "; freeFallingBall->getParticle(0)->vel.print();
+            std::cout << "FOR "; freeFallingBall->getParticle(0)->force.print();
+            freeFallingBall->operate(milis);
+            
+            start = std::chrono::steady_clock::now();
+            
+            std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+            
+            
+        } while (freeFallingBall->getElapsedTime() < 8);
+        
     }
     
     // GUI should receive the simulation class together. Or I should create the correct simulation GUI

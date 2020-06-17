@@ -15,32 +15,7 @@ class Simulation {
     private:
         float _elapsedTime = 0;
         float _slowMotionRatio = 0;
-        
-        // Calculates dt, the time interval (as seconds) from the "Previous Frame" to the "Current Frame".
-        // It'll be used to iterate the values such as Velocity and Position of the particles.
-        int calculateNumOfInterations(int milliseconds_) {
-                        
-            // Let's Convert Milliseconds To Seconds
-            float dt = milliseconds_ / 1000.0f;
-            
-            // Divide dt By slowMotionRatio And Obtain The New dt
-            dt /= _slowMotionRatio;			
-            
-            // To get the total elapsed time from the simulation, 
-            _elapsedTime += dt;
-            
-            // Say That The Maximum Possible dt Is 0.1 Seconds
-            // This Is Needed So We Do Not Pass Over A Non Precise dt Value
-            float maxPossible_dt = 0.1f;
-            
-            // Calculate Number Of Iterations To Be Made At This Update Depending On maxPossible_dt And dt
-            int numOfIterations = (int)(dt / maxPossible_dt) + 1;
-            
-            // dt Should Be Updated According To numOfIterations
-            if (numOfIterations != 0) dt = dt / numOfIterations;	
-                
-            return dt;
-        }
+     
     protected:
         // Particles of the simulation
         Particle<float>** particles;
@@ -64,11 +39,12 @@ class Simulation {
 		}
 
 		// Evolve the particles considering the change in time
-		virtual void simulate(float dt_) {
-            // We will iterate every particle
-			for (int a = 0; a < numOfParticles; ++a)	
-                // Iterate the particles and obtain new position and new velocity
-				particles[a]->simulate(dt_);	        
+		virtual void simulate(int numOfIterations, float dt_) {
+            // We will iterate every particle by the number of iteractions
+            for (int b = 0; b < numOfIterations; ++b)
+                for (int a = 0; a < numOfParticles; ++a)	
+                    // Iterate the integrators and obtain new position and velocity for the related particle
+                    integrators[a]->integrate(dt_);
 		}        
         
 	public:
@@ -133,7 +109,27 @@ class Simulation {
 		virtual void operate(int milliseconds_) {
 			init();			// Step 1: reset forces to zero
 			solve();		// Step 2: apply forces
-			simulate(calculateNumOfInterations(milliseconds_));	// Step 3: iterate the masses by the change in time
+            
+            // Let's convert milliseconds to seconds
+            float dt = milliseconds_ / 1000.0f;
+            
+            // Divide dt by slowMotionRatio to obtain normalized dt
+            dt /= _slowMotionRatio;			
+            
+            // Add it to the simulation's total elapsed time
+            _elapsedTime += dt;
+           
+            // Maximum possible dt Is 0.1 seconds
+            // This is needed so we do not pass over a non precise dt value
+            float maxPossible_dt = 0.1f;
+            
+            // Calculate Number Of Iterations To Be Made At This Update Depending On maxPossible_dt And dt
+            int numOfIterations = (int)(dt / maxPossible_dt);
+            
+            // dt Should Be Updated According To numOfIterations
+            if (numOfIterations != 0) dt = dt / numOfIterations;	
+             
+			simulate(numOfIterations, dt);	// Step 3: iterate the masses by the change in time
 		}
 };
 

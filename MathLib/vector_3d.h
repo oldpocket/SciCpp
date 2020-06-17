@@ -29,7 +29,7 @@ template <class T> class Vector3D {
 			randomize(limit, bsig);
 		}
 		// Access (read and write) to private members
-		void X(T _x) { x = _x; }
+		void X(T _x) { this->x = _x; }
 		T X() { return x; }
 		void Y(T _y) { y = _y; }
 		T Y() { return y; }
@@ -99,9 +99,9 @@ template <class T> class Vector3D {
 		// randomize() randomize change the components of this vector to a random one
 		void randomize(const int limit, const bool bsig) {
 			GeneralPurpose randComponent;
-			X( (T)randComponent.getRandom(limit, 1, true) );
-			Y( (T)randComponent.getRandom(limit, 1, true) );
-			Z( (T)randComponent.getRandom(limit, 1, true) );
+			X( (T)randComponent.getRandom(limit, 1, bsig) );
+			Y( (T)randComponent.getRandom(limit, 1, bsig) );
+			Z( (T)randComponent.getRandom(limit, 1, bsig) );
 		}
 		// Destructor
 		~Vector3D() {}

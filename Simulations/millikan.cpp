@@ -32,7 +32,7 @@ public:
 			bForce = (particles[a]->vel ^ bField) * particles[a]->Q();
 			sForce =  particles[a]->vel * 20.0f * -1;
 			
-			particles[a]->applyForce(eForce + bForce + gForce * particles[a]->M() + sForce);
+			particles[a]->force += (eForce + bForce + gForce * particles[a]->M() + sForce);
 		}
 	}
 	void restart() {

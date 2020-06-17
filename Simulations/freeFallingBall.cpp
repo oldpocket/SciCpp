@@ -10,7 +10,7 @@ private:
 
 public:
 	
-    FreeFallingBall() : Simulation(1) {
+    FreeFallingBall() : Simulation(1, 1, 1) {
         
 		//Defining direction and magnitude of gravitational acceleration
 		this->gForce = Vector3D<float>(.0f, -9.81f,  .0f);
@@ -27,7 +27,7 @@ public:
 			// Force need to be applied to all particles individualy.
             
 			// Falling Ball -> F =  m * a
-			particles[a]->applyForce(gForce * particles[a]->M());
+            particles[a]->force = gForce * particles[a]->M();
 		}
 	}
 	
@@ -35,7 +35,7 @@ public:
 		for (int a = 0; a < numOfParticles; a++) {
 			// Randomize the possition 
             // (actually we want only Y, so we correct X and Z later)
-			particles[a]->pos.randomize((int)BOX_SIZE2, true);
+			particles[a]->pos.randomize((int)BOX_SIZE2, false);
 			// Midlle of the screen
             particles[a]->pos.X(15); 
             // 2D simulation, Z is not important

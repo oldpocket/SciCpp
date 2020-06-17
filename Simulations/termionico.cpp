@@ -67,7 +67,7 @@ public:
 				} else {
 					float distY = particles[a]->pos.Y();
 					float imgForce = .001*(goCounter); ///(distY*distY);
-					particles[a]->applyForce(eField + Vector3D<float>(.0f, -imgForce, .0f) );
+					particles[a]->force += (eField + Vector3D<float>(.0f, -imgForce, .0f) );
 				}
 			}
 		}
