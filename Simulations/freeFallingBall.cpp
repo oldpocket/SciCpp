@@ -1,3 +1,9 @@
+/******************************************************************************/
+/*   Function : Implementation of a free falling particle experiment          */
+/*  Developer : Fabio Andreozzi Godoy                                         */
+/*       Date : 2020-06-11 - Ultima atualizacao : 2020-06-17                  */
+/******************************************************************************/
+
 #include "../PhysLib/simulation.h"
 #include "../Integrator/integrator.h"
 
@@ -32,7 +38,7 @@ public:
 	}
 	
 	void restart() {
-		for (int a = 0; a < numOfParticles; a++) {
+		for (int a = 0; a < numOfParticles; ++a) {
 			// Randomize the possition 
             // (actually we want only Y, so we correct X and Z later)
 			particles[a]->pos.randomize((int)BOX_SIZE2, false);

@@ -1,15 +1,13 @@
 /******************************************************************************/
 /*   Function : Interface for integrators                                     */
 /*  Developer : Fabio Andreozzi Godoy                                         */
-/*       Date : 2020-06-12 - Ultima atualizacao : 2020-06-14                  */
+/*       Date : 2020-06-10 - Ultima atualizacao : 2020-06-14                  */
 /******************************************************************************/
 
 #ifndef INTEGRATOR_H
 #define INTEGRATOR_H
 
 #include "../PhysLib/particle.h"
-#include "euler_integrator.h"
-#include "verlet_integrator.h"
 
 enum IntegratorType {
     EULER, VERLET
@@ -26,12 +24,7 @@ public:
      * Default constructor
      */
     EulerIntegrator(Particle<T>* particle_) : Integrator<T>(particle_) {
-    }   
-
-    /**
-     * Destructor
-     */
-    ~EulerIntegrator();
+    }
 
     virtual void integrate(T dt_) override {
         
@@ -46,25 +39,21 @@ public:
  */
 template <class T> class VerletIntegrator : public Integrator<T> {
 private:
-    T lastDt;                       // Last dt
+    T lastDt = 0;                       // Last dt
     Vector3D<T> lastPos;    // Last position in space
 public:
     /**
      * Default constructor
      */
     VerletIntegrator(Particle<T>* particle_) : Integrator<T>(particle_) {
-    }   
-
-    /**
-     * Destructor
-     */
-    ~VerletIntegrator();
+        lastPos.setZero();
+    }
 
     virtual void integrate(T dt_) override {
         
         Vector3D<T> tmpPos;
-        this->particle->vel += (this->particle->force)*dt_/(this->particle->M());
-        this->particle->pos += this->particle->vel*dt_ + (this->particle->force)*dt_*dt_/(2*this->particle->M());
+        this->particle->vel += this->particle->force*dt_/this->particle->M();
+        this->particle->pos += this->particle->vel*dt_ + this->particle->force*dt_*dt_/(2*this->particle->M());
         tmpPos = this->particle->pos;
         this->particle->pos += (this->particle->pos-lastPos)*(dt_/lastDt) + (this->particle->force)*dt_*dt_/(this->particle->M());
         this->particle->vel += (this->particle->force)*dt_/(this->particle->M());
@@ -94,7 +83,10 @@ public:
     /**
      * Destructor
      */
-    ~Integrator();
+    ~Integrator() {
+    
+        delete(particle);
+    }
     
     virtual void integrate(T dt_) = 0;
     

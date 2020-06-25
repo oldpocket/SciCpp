@@ -1,7 +1,7 @@
 /********************************************************************
   * Description: Simulation base class to be used in the experiments
   * Author: Fabio Andreozzi Godoy
-  * Date: 2006-02-02 | Modified: 2020-06-16
+  * Date: 2006-02-02 | Modified: 2020-06-17
   */
 
 #ifndef SIMULATION_H_INCLUDED
@@ -9,6 +9,7 @@
 
 #include "../PhysLib/particle.h"
 #include "../Integrator/integrator.h"
+
 
 // class Simulation is a container object for simulating masses
 class Simulation {
@@ -42,15 +43,17 @@ class Simulation {
 		virtual void simulate(int numOfIterations, float dt_) {
             // We will iterate every particle by the number of iteractions
             for (int b = 0; b < numOfIterations; ++b)
-                for (int a = 0; a < numOfParticles; ++a)	
+                for (int a = 0; a < numOfParticles; ++a) {
+                    
                     // Iterate the integrators and obtain new position and velocity for the related particle
-                    integrators[a]->integrate(dt_);
+                   integrators[a]->integrate(dt_);
+                }
 		}        
         
 	public:
         // Number of particles in this container
 		int numOfParticles;
-		
+        
 		// Basic Constructor, creates some particles but do not initialize it
 		Simulation(int numOfParticles_, float slowMotionRatio_ = 1) {
             _slowMotionRatio = slowMotionRatio_;
@@ -80,11 +83,16 @@ class Simulation {
 		virtual void release() {
 			// We will delete all of them
 			for (int a = 0; a < numOfParticles; ++a) {
-				delete(particles[a]);
-				particles[a] = NULL;
+				
+                delete(integrators[a]);
+                integrators[a] = NULL;
+                particles[a] = NULL;
 			}
 			delete(particles);
 			particles = NULL;
+            
+            delete(integrators);
+            integrators = NULL;
 		}
 		
 		// Return the total elapsed time from the simulation
@@ -121,7 +129,7 @@ class Simulation {
            
             // Maximum possible dt Is 0.1 seconds
             // This is needed so we do not pass over a non precise dt value
-            float maxPossible_dt = 0.1f;
+            float maxPossible_dt = 1.0f;
             
             // Calculate Number Of Iterations To Be Made At This Update Depending On maxPossible_dt And dt
             int numOfIterations = (int)(dt / maxPossible_dt);
