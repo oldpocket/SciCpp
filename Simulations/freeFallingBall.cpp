@@ -4,10 +4,12 @@
 /*       Date : 2020-06-11 - Ultima atualizacao : 2020-06-17                  */
 /******************************************************************************/
 
-#include "../PhysLib/simulation.h"
+#include "../Simulations/simulation.h"
 #include "../Integrator/integrator.h"
 
 #define BOX_SIZE2 20
+
+namespace simulations {
 
 class FreeFallingBall: public Simulation {
 private:
@@ -53,3 +55,4 @@ public:
 	}
 };
 
+}

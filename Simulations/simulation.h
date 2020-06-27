@@ -10,6 +10,7 @@
 #include "../PhysLib/particle.h"
 #include "../Integrator/integrator.h"
 
+namespace simulations {
 
 // class Simulation is a container object for simulating masses
 class Simulation {
@@ -140,5 +141,7 @@ class Simulation {
 			simulate(numOfIterations, dt);	// Step 3: iterate the masses by the change in time
 		}
 };
+
+}
 
 #endif // SIMULATION_H_INCLUDED

@@ -2,18 +2,18 @@
   * File: main.cpp
   * Description: Main loop for our simulations
   * Author: Fabio Andreozzi Godoy
-  * Date: 2020-06-06 - Modified: 2020-06-06
+  * Date: 2020-06-06 - Modified: 2020-06-27
   */
+
+#ifndef MAIN_SOURCE
+#define MAIN_SOURCE
+
 
 #include <chrono>
 #include <iostream>
 #include <thread>
 
-#include "GUI/Simple_window.h"
-#include "Simulations/millikan.cpp"
-#include "Simulations/michelsonInterferometer.cpp"
-#include "Simulations/termionico.cpp"
-#include "Simulations/freeFallingBall.cpp"
+#include "Laboratory/freeFallingBall.h"
 
 std::string getCmdOption(int argc, char* argv[], const std::string& option) {
     std::string cmd;
@@ -26,45 +26,6 @@ std::string getCmdOption(int argc, char* argv[], const std::string& option) {
         }
     }
     return cmd;
-}
-
-void executeFreeFallingBall() {
-    
-    FreeFallingBall* freeFallingBall = new FreeFallingBall();
-    
-    auto start = std::chrono::steady_clock::now();
-    
-    std::this_thread::sleep_for(std::chrono::milliseconds(1000));
-    do {
-        std::cout << "-------" << std::endl;
-        auto end = std::chrono::steady_clock::now();
-        auto milis = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
-        freeFallingBall->operate(milis);
-        std::cout << freeFallingBall->getElapsedTime() << std::endl;
-        std::cout << milis << std::endl;
-        std::cout << "POS "; freeFallingBall->getParticle(0)->pos.print();
-        std::cout << "VEL "; freeFallingBall->getParticle(0)->vel.print();
-        std::cout << "FOR "; freeFallingBall->getParticle(0)->force.print();
-
-        
-        start = std::chrono::steady_clock::now();
-        std::this_thread::sleep_for(std::chrono::milliseconds(1000));
-        
-        
-    } while (freeFallingBall->getElapsedTime() < 15);
-    
-}
-
-void executeMillikan() {
-    Millikan* millikan = new Millikan(3.0f, 10);
-}
-
-void executeMichelsonInterferometer() {
-     MichelsonInterferometer* michelsonInterferometer = new MichelsonInterferometer();
-}
-
-void executeThermionicEmission() {
-    ThermionicEmission* thermionicEmission = new ThermionicEmission(3.0f, 10);
 }
 
 int main(int argc,char* argv[]) {
@@ -83,17 +44,15 @@ int main(int argc,char* argv[]) {
     std::cout << "Starting system with simulation: " << simulation << std::endl;
     
     // In the future I'll change it with some kindo of IoC or Factory
-    if (!simulation.compare("millikan"))                executeMillikan();
-    if (!simulation.compare("michelsonInterferometer")) executeMichelsonInterferometer();
-    if (!simulation.compare("thermionicEmission"))      executeThermionicEmission();
-    if (!simulation.compare("freeFallingBall"))         executeFreeFallingBall();
-    
-    // GUI should receive the simulation class together. Or I should create the correct simulation GUI
-    /*
-    GUI::Simple_window win {640,480,"An empty window"};
-    win.show();
-    return Fl::run();
-    */
-    
+    if (!simulation.compare("millikan"))                std::cout << "To be done..." << std::endl;
+    if (!simulation.compare("michelsonInterferometer")) std::cout << "To be done..." << std::endl;
+    if (!simulation.compare("thermionicEmission"))      std::cout << "To be done..." << std::endl;
+    if (!simulation.compare("freeFallingBall")) {
+        FreeFallingBall* f = new FreeFallingBall(false);
+        f->execute();
+    }
+
     return 0;
 }
+
+#endif // MAIN_SOURCE

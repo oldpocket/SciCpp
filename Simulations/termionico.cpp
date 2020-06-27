@@ -5,10 +5,12 @@
   * Date: 05/05/2006 - Modified: 29/06/2006
   */
 
-#include "../PhysLib/simulation.h"
+#include "../Simulations/simulation.h"
 
 #define BOX_SIZE 20.0f
 #define NUM_OF_PARTICLES 10000
+
+namespace simulations {
 
 class ThermionicEmission: public Simulation {
 private:
@@ -112,3 +114,5 @@ public:
 		}
 	}
 };
+
+}

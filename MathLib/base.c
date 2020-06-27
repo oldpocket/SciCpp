@@ -47,7 +47,7 @@ void destrans(){
   }
   printf("Numero decimal : %i",tmp);
 }
-
+/*
 int main(){
   int op;
   do {
@@ -59,4 +59,4 @@ int main(){
     if (op == 2) destrans();
     printf("\n\n");
   } while (op != 3);
-}
+}*/

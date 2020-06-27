@@ -1,6 +1,8 @@
-#include "../PhysLib/simulation.h"
+#include "../Simulations/simulation.h"
 
 #define BOX_SIZE 20.0f
+
+namespace simulations {
 
 class Millikan: public Simulation {
 private:
@@ -49,3 +51,5 @@ public:
 
 	}
 };
+
+}

@@ -1,7 +1,9 @@
 #ifndef MichelsonInterferometer_H
 #define MichelsonInterferometer_H
 
-#include "../PhysLib/simulation.h"
+#include "../Simulations/simulation.h"
+
+namespace simulations {
 
 class MichelsonInterferometer: public Simulation {
 	private:
@@ -64,5 +66,7 @@ class MichelsonInterferometer: public Simulation {
 		}
 
 };
+
+}
 
 #endif 
