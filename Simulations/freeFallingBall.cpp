@@ -18,7 +18,7 @@ private:
 
 public:
 	
-    FreeFallingBall() : Simulation(1, 1, 1) {
+    FreeFallingBall(float m_, float precision_) : Simulation(1, m_, 1, precision_) {
         
 		//Defining direction and magnitude of gravitational acceleration
 		this->gForce = Vector3D<float>(.0f, -9.81f,  .0f);

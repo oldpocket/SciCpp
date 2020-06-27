@@ -17,6 +17,9 @@ class Simulation {
     private:
         float _elapsedTime = 0;
         float _slowMotionRatio = 0;
+        
+        // dt will be divided by the precision to improve integration quality
+        float _precision = 0.1f;
      
     protected:
         // Particles of the simulation
@@ -56,8 +59,9 @@ class Simulation {
 		int numOfParticles;
         
 		// Basic Constructor, creates some particles but do not initialize it
-		Simulation(int numOfParticles_, float slowMotionRatio_ = 1) {
+		Simulation(int numOfParticles_, float slowMotionRatio_ = 1.0f, float precision_ = 0.1f) {
             _slowMotionRatio = slowMotionRatio_;
+            _precision = precision_;
             
 			this->numOfParticles = numOfParticles_;
 			particles = new Particle<float>*[numOfParticles_];	// Create an array of pointers
@@ -66,8 +70,8 @@ class Simulation {
 		}
 		
 		// Create the array with particles, but also initialize them with the given mass.
-		Simulation(int numOfParticles_, float m_, float slowMotionRatio_) 
-        : Simulation(numOfParticles_, slowMotionRatio_) {
+		Simulation(int numOfParticles_, float m_, float slowMotionRatio_, float precision_) 
+        : Simulation(numOfParticles_, slowMotionRatio_, precision_) {
 
             // We will step to every pointer in the array
 			for (int a = 0; a < numOfParticles_; ++a) {	        
@@ -128,12 +132,8 @@ class Simulation {
             // Add it to the simulation's total elapsed time
             _elapsedTime += dt;
            
-            // Maximum possible dt Is 0.1 seconds
-            // This is needed so we do not pass over a non precise dt value
-            float maxPossible_dt = 1.0f;
-            
             // Calculate Number Of Iterations To Be Made At This Update Depending On maxPossible_dt And dt
-            int numOfIterations = (int)(dt / maxPossible_dt);
+            int numOfIterations = (int)(dt / _precision);
             
             // dt Should Be Updated According To numOfIterations
             if (numOfIterations != 0) dt = dt / numOfIterations;	

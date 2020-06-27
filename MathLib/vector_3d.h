@@ -78,8 +78,17 @@ template <class T> class Vector3D {
 		Vector3D operator- () { return Vector3D(-x, -y, -z); }
 		// Some operations with this vector
 
+        // print x, y, z with a specific format
+		void print(const char pre_, const char sep_, const char pos_, bool endLine_) {
+            std::cout << pre_ << (T)x << sep_ << (T)y << sep_ << (T)z << pos_;
+            if (endLine_) std::cout << std::endl;
+        }
+		
 		// print() print x, y and z values
-		void print() { std::cout << "(" << (T)x << "," << (T)y << "," << (T)z << ")" << std::endl; }
+		void print() {  
+            this->print('(', ',', ')', true);
+        }
+		
 		// length() returns the length of this Vector3D
 		float length() { return sqrtf(x*x + y*y + z*z); };
 		// unit() returns a new Vector3D (a unitized version of this one)
