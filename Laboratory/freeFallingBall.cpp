@@ -10,7 +10,7 @@
 
 FreeFallingBall::FreeFallingBall(bool consoleOnly_) 
     : Experiment(consoleOnly_) {
-       // _simulation = new simulations::FreeFallingBall();
+        _simulation = new simulations::FreeFallingBall();
 };
 
 void FreeFallingBall::execute() {

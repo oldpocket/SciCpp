@@ -2,12 +2,15 @@
 /*Prototipos das funcoes sobre pilhas   */
 /****************************************/
 
+#include <stdio.h>
+#include <stdlib.h>
+
 #define MAXPILHA 100
 
 struct stack {
   int topo;
   int item[MAXPILHA];
-}
+};
 
 /*Inicializa a pilha*/
 void inicPilha(struct stack *ps);

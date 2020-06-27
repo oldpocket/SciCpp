@@ -2,8 +2,13 @@
 /* Funcoes para o funcionamento de uma FILA                                   */
 /* Prototipos das funcoes que atuam sobre filas                               */
 /******************************************************************************/
+
+#include <stdio.h>
+#include <stdlib.h>
+
 /* Estrutura da fila */
 #define MAXFILA 8
+
 struct queue {
   int item[MAXFILA];
   int inic, fim;

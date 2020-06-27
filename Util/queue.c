@@ -8,7 +8,6 @@
 /* Funcoes para o funcionamento de uma FILA                                   */
 /* Definicoes das operacoes                                                   */
 /******************************************************************************/
-#include <stdio.h>
 
 #include "queue.h"
 

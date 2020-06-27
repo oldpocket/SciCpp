@@ -8,31 +8,15 @@
 #ifndef MAIN_SOURCE
 #define MAIN_SOURCE
 
-
-#include <chrono>
 #include <iostream>
-#include <thread>
-
+#include "Util/general.h"
 #include "Laboratory/freeFallingBall.h"
-
-std::string getCmdOption(int argc, char* argv[], const std::string& option) {
-    std::string cmd;
-    for( int i = 0; i < argc; ++i) {
-        std::string arg = argv[i]; 
-        
-        if(arg.find(option) == 0) {
-            cmd = arg.substr(option.length());
-            return cmd;
-        }
-    }
-    return cmd;
-}
 
 int main(int argc,char* argv[]) {
     
     // Example:
     // $ ./scicpp -simulation=millikan
-    std::string simulation = getCmdOption(argc, argv, "-simulation=");
+    std::string simulation = GeneralPurpose::getCmdOption(argc, argv, "-simulation="); 
     
     // We don't have a simulation with the given name. Let's finish the program and inform the user.
     if (simulation.empty()) {

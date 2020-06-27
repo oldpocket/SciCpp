@@ -28,7 +28,8 @@ int pilhaCheia(struct stack *ps) {
 
 int push (struct stack *ps, int x) {
   if (pilhaCheia(ps) == 1) {
-   printf("&s","Ocorreu overflow na pilha!\n");
+    printf("&s","Ocorreu overflow na pilha!\n");
+    return -1;
   } else {
     return (ps->item[++(ps->topo)] = x);
   }
@@ -36,16 +37,18 @@ int push (struct stack *ps, int x) {
 
 int pop (struct stack *ps) {
   if (pilhaVazia(ps) == 1) {
-    printf("&s","Ocorreu underflow na pilha!\n");
+        printf("&s","Ocorreu underflow na pilha!\n");
+        return -1;
     } else {
-      return (ps->item[ps->topo--]);
+        return (ps->item[ps->topo--]);
     }
 }
 
 int elemTopo (struct stack *ps) {
   if (pilhaVazia(ps) == 1) {
-    printf("&s","Ocorreu underflow na pilha!\n");
+        printf("&s","Ocorreu underflow na pilha!\n");
+        return -1;
    } else {
-      return (ps->item[ps->topo]);
+        return (ps->item[ps->topo]);
   }
 }
