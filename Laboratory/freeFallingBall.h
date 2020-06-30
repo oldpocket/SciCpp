@@ -12,7 +12,7 @@
 
 class FreeFallingBall: public Experiment {
 private:
-    
+    void executeConsole();
 public:
     FreeFallingBall(bool consoleOnly_);
     
