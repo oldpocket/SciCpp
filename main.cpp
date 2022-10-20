@@ -32,7 +32,7 @@ int main(int argc,char* argv[]) {
     if (!simulation.compare("michelsonInterferometer")) std::cout << "To be done..." << std::endl;
     if (!simulation.compare("thermionicEmission"))      std::cout << "To be done..." << std::endl;
     if (!simulation.compare("freeFallingBall")) {
-        FreeFallingBall* f = new FreeFallingBall(false);
+        FreeFallingBall* f = new FreeFallingBall(true);
         f->execute();
     }
 
