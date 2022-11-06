@@ -1,0 +1,32 @@
+[
+{
+  "directory": "/Users/aethiopicus/Development/GitHub/MLP_ClassRegre/build",
+  "command": "/usr/bin/clang++ -g -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk -std=gnu++11 -o CMakeFiles/mlp_classregre.dir/main.cpp.o -c /Users/aethiopicus/Development/GitHub/MLP_ClassRegre/main.cpp",
+  "file": "/Users/aethiopicus/Development/GitHub/MLP_ClassRegre/main.cpp"
+},
+{
+  "directory": "/Users/aethiopicus/Development/GitHub/MLP_ClassRegre/build",
+  "command": "/usr/bin/clang++ -g -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk -std=gnu++11 -o CMakeFiles/mlp_classregre.dir/mlp/net.cpp.o -c /Users/aethiopicus/Development/GitHub/MLP_ClassRegre/mlp/net.cpp",
+  "file": "/Users/aethiopicus/Development/GitHub/MLP_ClassRegre/mlp/net.cpp"
+},
+{
+  "directory": "/Users/aethiopicus/Development/GitHub/MLP_ClassRegre/build",
+  "command": "/usr/bin/clang++ -g -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk -std=gnu++11 -o CMakeFiles/mlp_classregre.dir/mlp/neuron.cpp.o -c /Users/aethiopicus/Development/GitHub/MLP_ClassRegre/mlp/neuron.cpp",
+  "file": "/Users/aethiopicus/Development/GitHub/MLP_ClassRegre/mlp/neuron.cpp"
+},
+{
+  "directory": "/Users/aethiopicus/Development/GitHub/MLP_ClassRegre/build",
+  "command": "/usr/bin/clang++ -g -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk -std=gnu++11 -o CMakeFiles/mlp_classregre.dir/util/csvdataloader.cpp.o -c /Users/aethiopicus/Development/GitHub/MLP_ClassRegre/util/csvdataloader.cpp",
+  "file": "/Users/aethiopicus/Development/GitHub/MLP_ClassRegre/util/csvdataloader.cpp"
+},
+{
+  "directory": "/Users/aethiopicus/Development/GitHub/MLP_ClassRegre/build",
+  "command": "/usr/bin/clang++ -g -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk -std=gnu++11 -o CMakeFiles/mlp_classregre.dir/util/datasetmanager.cpp.o -c /Users/aethiopicus/Development/GitHub/MLP_ClassRegre/util/datasetmanager.cpp",
+  "file": "/Users/aethiopicus/Development/GitHub/MLP_ClassRegre/util/datasetmanager.cpp"
+},
+{
+  "directory": "/Users/aethiopicus/Development/GitHub/MLP_ClassRegre/build",
+  "command": "/usr/bin/clang++ -g -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk -std=gnu++11 -o CMakeFiles/mlp_classregre.dir/util/fungenerator.cpp.o -c /Users/aethiopicus/Development/GitHub/MLP_ClassRegre/util/fungenerator.cpp",
+  "file": "/Users/aethiopicus/Development/GitHub/MLP_ClassRegre/util/fungenerator.cpp"
+}
+]

@@ -1,0 +1,8 @@
+# ninja log v5
+1	4353	1652301272668300862	CMakeFiles/mlp_classregre.dir/mlp/neuron.cpp.o	6eebc55b84a912d0
+2	5289	1652301273601436441	CMakeFiles/mlp_classregre.dir/util/csvdataloader.cpp.o	513bee5809980c85
+4	5349	1652301273662592766	CMakeFiles/mlp_classregre.dir/util/datasetmanager.cpp.o	888c508e95a30f2a
+10	5398	1652301273713068929	CMakeFiles/mlp_classregre.dir/util/fungenerator.cpp.o	9a94ec64526807f8
+1	5805	1652301274116517799	CMakeFiles/mlp_classregre.dir/main.cpp.o	7d8a2a597601d139
+1	6126	1652301274446191743	CMakeFiles/mlp_classregre.dir/mlp/net.cpp.o	6be2c8dc2593951
+6127	6306	1652301274633579221	mlp_classregre	ceffe3f2a80350d3
